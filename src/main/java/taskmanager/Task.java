@@ -25,4 +25,11 @@ public class Task {
     public void setIsCompleted(Boolean isCompleted) {
         this.isCompleted = isCompleted;
     }
+
+    public String toString() {
+        if (isCompleted) {
+            return "[X] " + name;
+        }
+        return "[ ] " + name;
+    }
 }

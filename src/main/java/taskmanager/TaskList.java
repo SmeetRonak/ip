@@ -22,9 +22,31 @@ public class TaskList {
         tasks[len++] = task;
     }
 
+
+    public void markTask(int index) throws TaskListIndexOutOfBoundsException {
+        if (index < 0 || index >= len) {
+            throw new TaskListIndexOutOfBoundsException();
+        }
+        tasks[index].setIsCompleted(true);
+    }
+
+    public void unmarkTask(int index) throws TaskListEmptyException, TaskListIndexOutOfBoundsException {
+        if (index < 0 ){
+            throw new TaskListEmptyException();
+        }
+
+        else if (index >= len) {
+            throw new TaskListIndexOutOfBoundsException();
+        }
+
+        else {
+            tasks[index].setIsCompleted(false);
+        }
+    }
+
     public void printTaskList() {
         for (int i = 0; i < len; i++) {
-            System.out.printf("%d. %s%n", i + 1, tasks[i].getName());
+            System.out.printf("%d. %s%n", i + 1, tasks[i].toString());
         }
     }
 }
