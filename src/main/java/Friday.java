@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+import taskmanager.Task;
+import taskmanager.TaskList;
+import taskmanager.exceptions.TaskListFullException;
+
 public class Friday {
     //initialize static variables
     private static final int lineLength = 100;
@@ -25,11 +29,24 @@ public class Friday {
 
         Scanner input = new Scanner(System.in);
         String inputLine = input.nextLine();
+        TaskList taskList = new TaskList();
 
         while (!inputLine.equals("bye")) {
-            printLine();
-            System.out.println(inputLine);
-            printLine();
+            if (inputLine.equals("list")) {
+                taskList.printTaskList();
+            }
+
+            else {
+                try {
+                    printLine();
+                    Task newTask = new Task(inputLine);
+                    taskList.addTask(newTask);
+                    System.out.println("added: " + inputLine);
+                    printLine();
+                } catch (TaskListFullException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
             inputLine = input.nextLine();
         }
 
