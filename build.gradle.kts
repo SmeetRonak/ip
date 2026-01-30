@@ -24,6 +24,10 @@ application {
     mainClass.set("Friday")
 }
 
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}
+
 tasks.test {
     useJUnitPlatform()
 }

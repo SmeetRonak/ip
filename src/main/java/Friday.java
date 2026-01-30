@@ -1,4 +1,4 @@
-import io.read;
+import java.util.Scanner;
 
 public class Friday {
     //initialize static variables
@@ -22,6 +22,17 @@ public class Friday {
         System.out.println("Hello, I'm Friday!");
         System.out.println("What can I do for you?");
         printLine();
+
+        Scanner input = new Scanner(System.in);
+        String inputLine = input.nextLine();
+
+        while (!inputLine.equals("bye")) {
+            printLine();
+            System.out.println(inputLine);
+            printLine();
+            inputLine = input.nextLine();
+        }
+
         System.out.println("Bye. Hope to see you soon!");
         printLine();
     }
