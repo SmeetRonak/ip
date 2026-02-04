@@ -15,17 +15,21 @@ public class Task {
     }
 
     public String getName() {
+
         return name;
     }
 
     public Boolean getIsCompleted() {
+
         return isCompleted;
     }
 
     public void setIsCompleted(Boolean isCompleted) {
+
         this.isCompleted = isCompleted;
     }
 
+    @Override
     public String toString() {
         if (isCompleted) {
             return "[X] " + name;

@@ -24,8 +24,7 @@ public class Friday {
             System.out.println("Here are the tasks in your list:");
             taskList.printTaskList(); // Task.toString() should show [X] or [ ]
             printLine();
-        }
-        else if (inputLine.startsWith("mark ")) {
+        } else if (inputLine.startsWith("mark ")) {
             try {
                 int index = Integer.parseInt(inputLine.split(" ")[1]) - 1; // user uses 1-based
                 taskList.markTask(index);
@@ -37,8 +36,7 @@ public class Friday {
             } catch (NumberFormatException e) {
                 System.out.println("Invalid task number format!");
             }
-        }
-        else if (inputLine.startsWith("unmark ")) {
+        } else if (inputLine.startsWith("unmark ")) {
             try {
                 int index = Integer.parseInt(inputLine.split(" ")[1]) - 1;
                 taskList.unmarkTask(index);
@@ -50,8 +48,7 @@ public class Friday {
             } catch (NumberFormatException e) {
                 System.out.println("Invalid task number format!");
             }
-        }
-        else { // assume adding a new task
+        } else { // assume adding a new task
             try {
                 printLine();
                 Task newTask = new Task(inputLine);

@@ -31,15 +31,11 @@ public class TaskList {
     }
 
     public void unmarkTask(int index) throws TaskListEmptyException, TaskListIndexOutOfBoundsException {
-        if (index < 0 ){
+        if (index < 0) {
             throw new TaskListEmptyException();
-        }
-
-        else if (index >= len) {
+        } else if (index >= len) {
             throw new TaskListIndexOutOfBoundsException();
-        }
-
-        else {
+        } else {
             tasks[index].setIsCompleted(false);
         }
     }
