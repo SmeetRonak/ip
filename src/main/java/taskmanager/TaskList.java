@@ -15,11 +15,17 @@ public class TaskList {
         len = 0;
     }
 
+    //getter
+    public int getLen() {
+        return len;
+    }
+
     public void addTask(Task task) throws TaskListFullException {
         if (len >= CAPACITY) {
             throw new TaskListFullException();
         }
-        tasks[len++] = task;
+        tasks[len] = task;
+        len++;
     }
 
 

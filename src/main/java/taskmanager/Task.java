@@ -1,8 +1,14 @@
 package taskmanager;
 
 public class Task {
+
     private final String name;
     private Boolean isCompleted;
+
+    public Task() {
+        name = null;
+        isCompleted = false;
+    }
 
     public Task(String name) {
         this.name = name;
@@ -15,17 +21,14 @@ public class Task {
     }
 
     public String getName() {
-
         return name;
     }
 
     public Boolean getIsCompleted() {
-
         return isCompleted;
     }
 
     public void setIsCompleted(Boolean isCompleted) {
-
         this.isCompleted = isCompleted;
     }
 
