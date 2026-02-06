@@ -9,16 +9,29 @@ import taskmanager.exceptions.TaskListEmptyException;
 import taskmanager.exceptions.TaskListFullException;
 import taskmanager.exceptions.TaskListIndexOutOfBoundsException;
 
+
+/**
+ * Main entry point for the Friday task management application.
+ * Handles the user interface and command execution logic.
+ */
 public class Friday {
     //initialize static variables
-    private static final int lineLength = 100;
+    private static final int LINE_LENGTH = 100;
 
-    //helper function to print horizontal lines
+    /**
+     * Prints a horizontal line separator to the console.
+     */
     private static void printLine() {
-        System.out.println("-".repeat(lineLength));
+        System.out.println("-".repeat(LINE_LENGTH));
     }
 
-    // helper method to parse and execute user input
+
+    /**
+     * Parses the user input and executes the corresponding task command.
+     *
+     * @param taskList The list of tasks to be modified.
+     * @param inputLine The raw string input from the user.
+     */
     private static void parseInput(TaskList taskList, String inputLine) {
         inputLine = inputLine.trim();
 
@@ -60,7 +73,7 @@ public class Friday {
                 printLine();
                 System.out.println("Got it. I've added this task:");
                 System.out.println("  " + newTask);
-                System.out.println("Now you have " + taskList.getLen() + " tasks in the list.");
+                System.out.println("Now you have " + taskList.getLength() + " tasks in the list.");
                 printLine();
             } catch (TaskListFullException e) {
                 System.out.println(e.getMessage());
@@ -80,7 +93,7 @@ public class Friday {
                 printLine();
                 System.out.println("Got it. I've added this task:");
                 System.out.println("  " + newTask);
-                System.out.println("Now you have " + taskList.getLen() + " tasks in the list.");
+                System.out.println("Now you have " + taskList.getLength() + " tasks in the list.");
                 printLine();
             } catch (Exception e) {
                 System.out.println("Invalid deadline format! Use: deadline <desc> /by <time>");
@@ -103,7 +116,7 @@ public class Friday {
                 printLine();
                 System.out.println("Got it. I've added this task:");
                 System.out.println("  " + newTask);
-                System.out.println("Now you have " + taskList.getLen() + " tasks in the list.");
+                System.out.println("Now you have " + taskList.getLength() + " tasks in the list.");
                 printLine();
             } catch (Exception e) {
                 System.out.println("Invalid event format! Use: event <desc> /from <time> /to <time>");
@@ -123,12 +136,12 @@ public class Friday {
                  |  _| |  _ < | || |_| / ___  \\| |
                  |_|   |_| \\_\\___|____/_/    \\_\\_|
                 """;
+
         printLine();
         System.out.println(logo);
         System.out.println("Hello, I'm Friday!");
         System.out.println("What can I do for you?");
         printLine();
-
 
         Scanner input = new Scanner(System.in);
         TaskList taskList = new TaskList();
