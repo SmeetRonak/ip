@@ -1,6 +1,9 @@
 import java.util.Scanner;
 
 import taskmanager.Task;
+import taskmanager.Todo;
+import taskmanager.Event;
+import taskmanager.Deadline;
 import taskmanager.TaskList;
 import taskmanager.exceptions.TaskListEmptyException;
 import taskmanager.exceptions.TaskListFullException;
@@ -48,18 +51,69 @@ public class Friday {
             } catch (NumberFormatException e) {
                 System.out.println("Invalid task number format!");
             }
-        } else { // assume adding a new task
+        } else if (inputLine.startsWith("todo ")) {
             try {
-                printLine();
-                Task newTask = new Task(inputLine);
+                String desc = inputLine.substring(5).trim();
+                Task newTask = new Todo(desc);
                 taskList.addTask(newTask);
-                System.out.println("added: " + inputLine);
+
+                printLine();
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + newTask);
+                System.out.println("Now you have " + taskList.getLen() + " tasks in the list.");
                 printLine();
             } catch (TaskListFullException e) {
                 System.out.println(e.getMessage());
             }
+
+        } else if (inputLine.startsWith("deadline ")) {
+            try {
+                String body = inputLine.substring(9).trim();
+                String[] parts = body.split("/by");
+
+                String desc = parts[0].trim();
+                String by = parts[1].trim();
+
+                Task newTask = new Deadline(desc, by);
+                taskList.addTask(newTask);
+
+                printLine();
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + newTask);
+                System.out.println("Now you have " + taskList.getLen() + " tasks in the list.");
+                printLine();
+            } catch (Exception e) {
+                System.out.println("Invalid deadline format! Use: deadline <desc> /by <time>");
+            }
+
+        } else if (inputLine.startsWith("event ")) {
+            try {
+                String body = inputLine.substring(6).trim();
+
+                String[] firstSplit = body.split("/from");
+                String desc = firstSplit[0].trim();
+
+                String[] secondSplit = firstSplit[1].split("/to");
+                String from = secondSplit[0].trim();
+                String to = secondSplit[1].trim();
+
+                Task newTask = new Event(desc, from, to);
+                taskList.addTask(newTask);
+
+                printLine();
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + newTask);
+                System.out.println("Now you have " + taskList.getLen() + " tasks in the list.");
+                printLine();
+            } catch (Exception e) {
+                System.out.println("Invalid event format! Use: event <desc> /from <time> /to <time>");
+            }
+
+        } else {
+            System.out.println("Unknown command!");
         }
     }
+
 
     public static void main(String[] args) {
         String logo = """
