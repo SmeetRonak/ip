@@ -2,6 +2,6 @@ package taskmanager.exceptions;
 
 public class UnknownCommandException extends FridayException {
     public UnknownCommandException() {
-        super("OOPS!!! I'm sorry, but I don't know what that means :-(");
+        super("OOPS!!! I'm sorry, I don't know what you're asking me to do!");
     }
 }
