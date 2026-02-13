@@ -1,4 +1,4 @@
-# Friday User Guide
+# chatbot.Friday User Guide
 
 // Update the title above to match the actual product name
 

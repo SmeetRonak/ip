@@ -21,7 +21,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("Friday")
+    mainClass.set("chatbot.Friday")
 }
 
 tasks.named<JavaExec>("run") {
