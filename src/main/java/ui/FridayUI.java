@@ -17,21 +17,14 @@ public class FridayUI {
 
     public FridayUI() {
         TaskList taskList = new TaskList();
-        Storage storage = new Storage("./data/friday.txt"); // default path
+        Storage storage = new Storage("./data/friday.txt");
 
         this.taskHandler = new TaskHandler(taskList, storage);
         this.parser = new CommandParser();
         this.scanner = new Scanner(System.in);
 
-        // load tasks from file
-        try {
-            Task[] loadedTasks = storage.load().toArray(new Task[0]);
-            for (Task t : loadedTasks) {
-                taskList.addTask(t);
-            }
-        } catch (Exception e) {
-            System.out.println("Could not load saved tasks: " + e.getMessage());
-        }
+        // Load previous tasks using TaskHandler helper
+        taskHandler.loadTasks();
     }
 
     /**

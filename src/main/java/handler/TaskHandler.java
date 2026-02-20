@@ -6,7 +6,7 @@ import java.util.Arrays;  // needed if you use Arrays.asList()
 import exceptions.taskmanager.EmptyDescriptionException;
 import exceptions.FridayException;
 import exceptions.taskmanager.InvalidFormatException;
-import exceptions.taskmanager.TaskListFullException;
+import exceptions.taskmanager.TaskListIndexOutOfBoundsException;
 import taskmanager.*;
 
 import storage.Storage;
@@ -115,11 +115,7 @@ public class TaskHandler {
         try {
             List<Task> loadedTasks = storage.load();     // returns a List<Task>
             for (Task t : loadedTasks) {
-                try {
-                    taskList.addTask(t);                 // add to your array
-                } catch (TaskListFullException e) {
-                    System.out.println("Warning: Could not load task (list full): " + t.getDescription());
-                }
+                taskList.addTask(t);                      // just add directly
             }
         } catch (StorageException e) {
             System.out.println("Warning: Could not load previous tasks: " + e.getMessage());

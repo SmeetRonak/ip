@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 //import taskmanager.exceptions.TaskListEmptyException;
 //import taskmanager.exceptions.TaskListFullException;
-import taskmanager.exceptions.TaskListIndexOutOfBoundsException;
+import exceptions.taskmanager.TaskListIndexOutOfBoundsException;
 
 public class TaskList {
     private final ArrayList<Task> tasks = new ArrayList<>();
@@ -58,9 +58,9 @@ public class TaskList {
      * The returned array has length equal to the number of tasks in the list.
      */
     public Task[] getAllTasks() {
-        Task[] activeTasks = new Task[length];
-        for (int i = 0; i < length; i++) {
-            activeTasks[i] = tasks[i];
+        Task[] activeTasks = new Task[tasks.size()];
+        for (int i = 0; i < tasks.size(); i++) {
+            activeTasks[i] = tasks.get(i);
         }
         return activeTasks;
     }
