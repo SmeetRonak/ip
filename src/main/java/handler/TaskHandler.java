@@ -55,14 +55,26 @@ public class TaskHandler {
         createAndAddTask(new Event(desc, secondSplit[0].trim(), secondSplit[1].trim()));
     }
 
-    // ---------- Helper Methods ----------
+    public void delete(String args) throws FridayException {
+        int index = parseIndex(args);
 
-    private void createAndAddTask(Task task) throws FridayException {
+        Task removedTask;
         try {
-            taskList.addTask(task);
-        } catch (TaskListFullException e) {
+            removedTask = taskList.deleteTask(index);
+        } catch (TaskListIndexOutOfBoundsException e) {
             throw new FridayException(e.getMessage());
         }
+
+        System.out.println("Noted. I've removed this task:");
+        System.out.println("  " + removedTask);
+        System.out.println("Now you have " + taskList.getLength() + " tasks in the list.");
+    }
+
+    // ---------- Helper Methods ----------
+
+    private void createAndAddTask(Task task) {
+        taskList.addTask(task);
+
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + taskList.getLength() + " tasks in the list.");
