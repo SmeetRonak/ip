@@ -8,18 +8,24 @@ import taskmanager.exceptions.FridayException;
 
 public class FridayUI {
     private static final int LINE_LENGTH = 100;
-    private final TaskList taskList;
     private final TaskHandler taskHandler;
     private final CommandParser parser;
     private final Scanner scanner;
 
     public FridayUI() {
-        this.taskList = new TaskList();
+        TaskList taskList = new TaskList();
         this.taskHandler = new TaskHandler(taskList);
         this.parser = new CommandParser();
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Starts the chatbot interaction loop.
+     * Continuously reads user input, parses it into commands and arguments,
+     * and dispatches the command to the appropriate handler.
+     * The loop terminates when the user enters "bye".
+     *
+     */
     public void start() {
         printLogo();
 
@@ -30,14 +36,40 @@ public class FridayUI {
                 String arguments = parser.getArguments(inputLine);
 
                 switch (command) {
-                case "list" -> taskHandler.printTasks();
-                case "mark" -> taskHandler.mark(arguments);
-                case "unmark" -> taskHandler.unmark(arguments);
-                case "todo" -> taskHandler.addTodo(arguments);
-                case "deadline" -> taskHandler.addDeadline(arguments);
-                case "event" -> taskHandler.addEvent(arguments);
-                default -> throw new FridayException("Unknown command!");
+                case "list":
+                    taskHandler.printTasks();
+                    break;
+
+                case "mark":
+                    taskHandler.mark(arguments);
+                    break;
+
+                case "unmark":
+                    taskHandler.unmark(arguments);
+                    break;
+
+                case "todo":
+                    taskHandler.addTodo(arguments);
+                    break;
+
+                case "deadline":
+                    taskHandler.addDeadline(arguments);
+                    break;
+
+                case "event":
+                    taskHandler.addEvent(arguments);
+                    break;
+
+                case "delete":
+                    taskHandler.delete(arguments);
+                    break;
+
+                default:
+                    throw new FridayException("Unknown command!");
                 }
+
+                printLine();
+
             } catch (FridayException e) {
                 printLine();
                 System.out.println(" " + e.getMessage());
