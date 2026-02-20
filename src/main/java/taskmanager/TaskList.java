@@ -1,8 +1,8 @@
 package taskmanager;
 
-import taskmanager.exceptions.TaskListEmptyException;
-import taskmanager.exceptions.TaskListFullException;
-import taskmanager.exceptions.TaskListIndexOutOfBoundsException;
+import exceptions.taskmanager.TaskListEmptyException;
+import exceptions.taskmanager.TaskListFullException;
+import exceptions.taskmanager.TaskListIndexOutOfBoundsException;
 
 public class TaskList {
     private static final int CAPACITY = 100;

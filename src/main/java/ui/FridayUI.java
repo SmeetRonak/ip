@@ -4,7 +4,7 @@ import java.util.Scanner;
 import handler.CommandParser;
 import handler.TaskHandler;
 import taskmanager.TaskList;
-import taskmanager.exceptions.FridayException;
+import exceptions.taskmanager.FridayException;
 
 public class FridayUI {
     private static final int LINE_LENGTH = 100;

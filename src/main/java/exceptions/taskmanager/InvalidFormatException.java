@@ -1,4 +1,4 @@
-package taskmanager.exceptions;
+package exceptions.taskmanager;
 
 public class InvalidFormatException extends FridayException {
     public InvalidFormatException(String correctFormat) {

@@ -1,7 +1,10 @@
 package handler;
 
+import exceptions.taskmanager.EmptyDescriptionException;
+import exceptions.taskmanager.FridayException;
+import exceptions.taskmanager.InvalidFormatException;
+import exceptions.taskmanager.TaskListFullException;
 import taskmanager.*;
-import taskmanager.exceptions.*;
 
 public class TaskHandler {
     private final TaskList taskList;

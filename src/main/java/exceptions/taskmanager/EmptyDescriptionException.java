@@ -1,4 +1,4 @@
-package taskmanager.exceptions;
+package exceptions.taskmanager;
 
 public class EmptyDescriptionException extends FridayException {
     public EmptyDescriptionException(String taskType) {

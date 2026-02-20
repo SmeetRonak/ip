@@ -1,4 +1,4 @@
-package taskmanager.exceptions;
+package exceptions.taskmanager;
 
 /**
  * Represents a general exception specific to the Duke chatbot.
