@@ -1,4 +1,4 @@
-package taskmanager.exceptions;
+package exceptions;
 
 /**
  * Represents a general exception specific to the Duke chatbot.
@@ -7,5 +7,9 @@ public class FridayException extends Exception {
 
     public FridayException(String message) {
         super(message);
+    }
+
+    public FridayException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

@@ -1,4 +1,4 @@
-package taskmanager.exceptions;
+package exceptions.taskmanager;
 
 public class TaskListEmptyException extends TaskListException {
     public TaskListEmptyException() {

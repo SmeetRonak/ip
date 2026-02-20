@@ -54,6 +54,18 @@ public class TaskList {
     }
 
     /**
+     * Returns an array of all current tasks in the list.
+     * The returned array has length equal to the number of tasks in the list.
+     */
+    public Task[] getAllTasks() {
+        Task[] activeTasks = new Task[length];
+        for (int i = 0; i < length; i++) {
+            activeTasks[i] = tasks[i];
+        }
+        return activeTasks;
+    }
+
+    /**
      * Prints all tasks currently in the list to the console.
      */
     public void printTaskList() {

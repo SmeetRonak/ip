@@ -1,4 +1,6 @@
-package taskmanager.exceptions;
+package exceptions.taskmanager;
+
+import exceptions.FridayException;
 
 public class UnknownCommandException extends FridayException {
     public UnknownCommandException() {
