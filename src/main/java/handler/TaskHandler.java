@@ -1,16 +1,24 @@
 package handler;
 
+import java.util.List;
+import java.util.Arrays;  // needed if you use Arrays.asList()
+
 import exceptions.taskmanager.EmptyDescriptionException;
-import exceptions.taskmanager.FridayException;
+import exceptions.FridayException;
 import exceptions.taskmanager.InvalidFormatException;
 import exceptions.taskmanager.TaskListFullException;
 import taskmanager.*;
 
+import storage.Storage;
+import exceptions.storage.StorageException;
+
 public class TaskHandler {
     private final TaskList taskList;
+    private final Storage storage;
 
-    public TaskHandler(TaskList taskList) {
+    public TaskHandler(TaskList taskList, Storage storage) {
         this.taskList = taskList;
+        this.storage = storage;
     }
 
     public void printTasks() {
@@ -22,12 +30,14 @@ public class TaskHandler {
         int index = parseIndex(args);
         taskList.markTask(index);
         System.out.println("Nice! I've marked this task as done");
+        saveTasks();
     }
 
     public void unmark(String args) throws FridayException {
         int index = parseIndex(args);
         taskList.unmarkTask(index);
         System.out.println("OK, I've marked this task as not done yet");
+        saveTasks();
     }
 
     public void addTodo(String args) throws FridayException {
@@ -69,6 +79,7 @@ public class TaskHandler {
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + taskList.getLength() + " tasks in the list.");
+        saveTasks();
     }
 
     private int parseIndex(String arg) throws FridayException {
@@ -76,6 +87,30 @@ public class TaskHandler {
             return Integer.parseInt(arg.trim()) - 1;
         } catch (NumberFormatException e) {
             throw new FridayException("Invalid task number format!");
+        }
+    }
+
+    private void saveTasks() {
+        try {
+            Task[] tasksArray = taskList.getAllTasks();          // your array
+            storage.save(Arrays.asList(tasksArray));            // wrap as List<Task>
+        } catch (StorageException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
+
+    public void loadTasks() {
+        try {
+            List<Task> loadedTasks = storage.load();     // returns a List<Task>
+            for (Task t : loadedTasks) {
+                try {
+                    taskList.addTask(t);                 // add to your array
+                } catch (TaskListFullException e) {
+                    System.out.println("Warning: Could not load task (list full): " + t.getDescription());
+                }
+            }
+        } catch (StorageException e) {
+            System.out.println("Warning: Could not load previous tasks: " + e.getMessage());
         }
     }
 }

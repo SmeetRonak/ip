@@ -1,5 +1,7 @@
 package exceptions.taskmanager;
 
+import exceptions.FridayException;
+
 public class EmptyDescriptionException extends FridayException {
     public EmptyDescriptionException(String taskType) {
         super("OOPS!!! The description of a " + taskType + " cannot be empty.");

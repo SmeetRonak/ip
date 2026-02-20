@@ -1,23 +1,37 @@
 package ui;
 
+import taskmanager.Task;
+
 import java.util.Scanner;
 import handler.CommandParser;
 import handler.TaskHandler;
 import taskmanager.TaskList;
-import exceptions.taskmanager.FridayException;
+import storage.Storage;
+import exceptions.FridayException;
 
 public class FridayUI {
     private static final int LINE_LENGTH = 100;
-    private final TaskList taskList;
     private final TaskHandler taskHandler;
     private final CommandParser parser;
     private final Scanner scanner;
 
     public FridayUI() {
-        this.taskList = new TaskList();
-        this.taskHandler = new TaskHandler(taskList);
+        TaskList taskList = new TaskList();
+        Storage storage = new Storage("./data/friday.txt"); // default path
+
+        this.taskHandler = new TaskHandler(taskList, storage);
         this.parser = new CommandParser();
         this.scanner = new Scanner(System.in);
+
+        // load tasks from file
+        try {
+            Task[] loadedTasks = storage.load().toArray(new Task[0]);
+            for (Task t : loadedTasks) {
+                taskList.addTask(t);
+            }
+        } catch (Exception e) {
+            System.out.println("Could not load saved tasks: " + e.getMessage());
+        }
     }
 
     public void start() {
