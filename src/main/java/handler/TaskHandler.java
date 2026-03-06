@@ -3,6 +3,10 @@ package handler;
 import java.util.List;
 import java.util.Arrays;  // needed if you use Arrays.asList()
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
+
 import exceptions.taskmanager.EmptyDescriptionException;
 import exceptions.FridayException;
 import exceptions.taskmanager.InvalidFormatException;
@@ -47,25 +51,52 @@ public class TaskHandler {
 
     public void addDeadline(String args) throws FridayException {
         String[] parts = args.split("/by");
+
         if (parts.length < 2 || parts[0].trim().isEmpty() || parts[1].trim().isEmpty()) {
-            throw new InvalidFormatException("deadline <description> /by <time>");
+            throw new InvalidFormatException("deadline <description> /by <yyyy-mm-dd>");
         }
-        createAndAddTask(new Deadline(parts[0].trim(), parts[1].trim()));
+
+        try {
+            String description = parts[0].trim();
+            LocalDate byDate = LocalDate.parse(parts[1].trim());
+
+            createAndAddTask(new Deadline(description, byDate));
+
+        } catch (DateTimeParseException e) {
+            throw new FridayException("Date must be in yyyy-mm-dd format.");
+        }
     }
 
     public void addEvent(String args) throws FridayException {
+
         String[] firstSplit = args.split("/from");
+
         if (firstSplit.length < 2 || firstSplit[0].trim().isEmpty()) {
-            throw new InvalidFormatException("event <description> /from <start_time> /to <end_time>");
+            throw new InvalidFormatException(
+                    "event <description> /from <yyyy-mm-ddTHH:mm> /to <yyyy-mm-ddTHH:mm>");
         }
 
         String desc = firstSplit[0].trim();
+
         String[] secondSplit = firstSplit[1].split("/to");
-        if (secondSplit.length < 2 || secondSplit[0].trim().isEmpty() || secondSplit[1].trim().isEmpty()) {
-            throw new InvalidFormatException("event <description> /from <start_time> /to <end_time>");
+
+        if (secondSplit.length < 2 || secondSplit[0].trim().isEmpty()
+                || secondSplit[1].trim().isEmpty()) {
+
+            throw new InvalidFormatException(
+                    "event <description> /from <yyyy-mm-ddTHH:mm> /to <yyyy-mm-ddTHH:mm>");
         }
 
-        createAndAddTask(new Event(desc, secondSplit[0].trim(), secondSplit[1].trim()));
+        try {
+
+            LocalDateTime from = LocalDateTime.parse(secondSplit[0].trim());
+            LocalDateTime to = LocalDateTime.parse(secondSplit[1].trim());
+
+            createAndAddTask(new Event(desc, from, to));
+
+        } catch (DateTimeParseException e) {
+            throw new FridayException("DateTime must be yyyy-mm-ddTHH:mm");
+        }
     }
 
     public void delete(String args) throws FridayException {

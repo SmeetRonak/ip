@@ -10,16 +10,15 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 /**
  * Handles loading and saving tasks to a file.
  */
 public class Storage {
 
     private final String filePath;
-
-    /**
-     * Constructor. Uses default file path if none provided.
-     */
 
     public Storage() {
         filePath = "./data/friday.txt";
@@ -38,7 +37,6 @@ public class Storage {
         File file = new File(filePath);
 
         if (!file.exists()) {
-            // folder may exist, file missing
             File parentDir = file.getParentFile();
             if (parentDir != null && !parentDir.exists()) {
                 boolean created = parentDir.mkdirs();
@@ -46,16 +44,22 @@ public class Storage {
                     System.out.println("Warning: Could not create directory " + parentDir.getPath());
                 }
             }
-            return tasks; // return empty list
+            return tasks;
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
+
             while ((line = reader.readLine()) != null) {
                 Task task = parseTask(line);
-                if (task != null) tasks.add(task);
-                else System.out.println("Skipped corrupted line in save file: " + line);
+
+                if (task != null) {
+                    tasks.add(task);
+                } else {
+                    System.out.println("Skipped corrupted line in save file: " + line);
+                }
             }
+
         } catch (IOException e) {
             throw new StorageException("Error reading from file: " + e.getMessage(), e);
         }
@@ -67,8 +71,10 @@ public class Storage {
      * Saves tasks to file. Creates file if missing.
      */
     public void save(List<Task> tasks) throws StorageException {
+
         File file = new File(filePath);
         File parentDir = file.getParentFile();
+
         if (parentDir != null && !parentDir.exists()) {
             boolean created = parentDir.mkdirs();
             if (!created) {
@@ -77,10 +83,12 @@ public class Storage {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+
             for (Task task : tasks) {
                 writer.write(serializeTask(task));
                 writer.newLine();
             }
+
         } catch (IOException e) {
             throw new StorageException("Error writing to file: " + e.getMessage(), e);
         }
@@ -89,45 +97,67 @@ public class Storage {
     // ---------- Helper methods ----------
 
     private Task parseTask(String line) {
+
         try {
+
             String[] parts = line.split("\\|");
-            for (int i = 0; i < parts.length; i++) parts[i] = parts[i].trim();
+
+            for (int i = 0; i < parts.length; i++) {
+                parts[i] = parts[i].trim();
+            }
+
             String type = parts[0];
             boolean isDone = parts[1].equals("1");
             String desc = parts[2];
 
             switch (type) {
+
             case "T":
                 Todo todo = new Todo(desc);
                 todo.setCompleted(isDone);
                 return todo;
+
             case "D":
-                String by = parts[3];
+                LocalDate by = LocalDate.parse(parts[3]);
                 Deadline deadline = new Deadline(desc, by);
                 deadline.setCompleted(isDone);
                 return deadline;
+
             case "E":
-                String from = parts[3];
-                String to = parts[4];
+                LocalDateTime from = LocalDateTime.parse(parts[3]);
+                LocalDateTime to = LocalDateTime.parse(parts[4]);
                 Event event = new Event(desc, from, to);
                 event.setCompleted(isDone);
                 return event;
+
             default:
                 return null;
             }
+
         } catch (Exception e) {
             return null; // skip malformed line
         }
     }
 
     private String serializeTask(Task task) {
+
         String done = task.getCompleted() ? "1" : "0";
+
         if (task instanceof Todo) {
+
             return "T | " + done + " | " + task.getDescription();
+
         } else if (task instanceof Deadline d) {
-            return "D | " + done + " | " + d.getDescription() + " | " + d.getBy();
+
+            return "D | " + done + " | " + d.getDescription()
+                    + " | " + d.getBy();   // LocalDate → ISO string
+
         } else if (task instanceof Event e) {
-            return "E | " + done + " | " + e.getDescription() + " | " + e.getFrom() + " | " + e.getTo();
+
+            return "E | " + done + " | " + e.getDescription()
+                    + " | " + e.getFrom()  // LocalDateTime → ISO string
+                    + " | " + e.getTo();
+
         } else {
             return "";
         }

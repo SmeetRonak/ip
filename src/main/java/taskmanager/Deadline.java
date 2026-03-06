@@ -1,27 +1,30 @@
 package taskmanager;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Deadline extends Task {
 
-    //keeping variables private, use getters and setters to access
-    private String by;
+    private LocalDate by;
 
-    public Deadline(String description, String by) {
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("MMM d yyyy");
+
+    public Deadline(String description, LocalDate by) {
         super(description);
         this.by = by;
     }
 
-    //getter
-    public String getBy() {
+    public LocalDate getBy() {
         return by;
     }
 
-    //setter
-    public void setBy(String by) {
+    public void setBy(LocalDate by) {
         this.by = by;
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        return "[D]" + super.toString() + " (by: " + by.format(FORMATTER) + ")";
     }
 }

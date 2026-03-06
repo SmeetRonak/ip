@@ -2,3 +2,5 @@ T | 0 | buy milk
 T | 0 | read book
 T | 0 | return book
 T | 1 | test
+T | 0 | read book
+D | 0 | submit assignment | 2026-02-20
