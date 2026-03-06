@@ -114,6 +114,32 @@ public class TaskHandler {
         System.out.println("Now you have " + taskList.getLength() + " tasks in the list.");
     }
 
+    public void find(String keyword) throws FridayException {
+
+        if (keyword.isEmpty()) {
+            throw new EmptyDescriptionException("find");
+        }
+
+        Task[] tasks = taskList.getAllTasks();
+
+        System.out.println("Here are the matching tasks in your list:");
+
+        int matchIndex = 1;
+
+        for (Task task : tasks) {
+            if (task == null) continue;
+
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                System.out.println(matchIndex + "." + task);
+                matchIndex++;
+            }
+        }
+
+        if (matchIndex == 1) {
+            System.out.println("No matching tasks found.");
+        }
+    }
+
     // ---------- Helper Methods ----------
 
     private void createAndAddTask(Task task) {

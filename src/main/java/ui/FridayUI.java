@@ -72,6 +72,10 @@ public class FridayUI {
                     taskHandler.delete(arguments);
                     break;
 
+                case "find":
+                    taskHandler.find(arguments);
+                    break;
+
                 default:
                     throw new FridayException("Unknown command!");
                 }
