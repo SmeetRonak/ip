@@ -30,6 +30,13 @@ public class TaskHandler {
         taskList.printTaskList();
     }
 
+
+    /**
+     * Marks a task as completed based on the provided index argument.
+     *
+     * @param args the task number provided by the user
+     * @throws FridayException if the task index is invalid or cannot be parsed
+     */
     public void mark(String args) throws FridayException {
         int index = parseIndex(args);
         taskList.markTask(index);
@@ -37,6 +44,13 @@ public class TaskHandler {
         saveTasks();
     }
 
+
+    /**
+     * Marks a task as not completed based on the provided index argument.
+     *
+     * @param args the task number provided by the user
+     * @throws FridayException if the task index is invalid or cannot be parsed
+     */
     public void unmark(String args) throws FridayException {
         int index = parseIndex(args);
         taskList.unmarkTask(index);
@@ -44,11 +58,26 @@ public class TaskHandler {
         saveTasks();
     }
 
+
+    /**
+     * Creates and adds a Todo task to the task list.
+     *
+     * @param args the description of the todo task
+     * @throws FridayException if the description is empty
+     */
     public void addTodo(String args) throws FridayException {
         if (args.isEmpty()) throw new EmptyDescriptionException("todo");
         createAndAddTask(new Todo(args));
     }
 
+
+    /**
+     * Creates and adds a Deadline task to the task list.
+     * The expected format is: description /by yyyy-mm-dd.
+     *
+     * @param args the description and deadline date provided by the user
+     * @throws FridayException if the format is invalid or the date cannot be parsed
+     */
     public void addDeadline(String args) throws FridayException {
         String[] parts = args.split("/by");
 
@@ -67,6 +96,14 @@ public class TaskHandler {
         }
     }
 
+
+    /**
+     * Creates and adds an Event task to the task list.
+     * The expected format is: description /from yyyy-mm-ddTHH:mm /to yyyy-mm-ddTHH:mm.
+     *
+     * @param args the description, start time, and end time of the event
+     * @throws FridayException if the format is invalid or the date-time values cannot be parsed
+     */
     public void addEvent(String args) throws FridayException {
 
         String[] firstSplit = args.split("/from");
@@ -99,6 +136,13 @@ public class TaskHandler {
         }
     }
 
+
+    /**
+     * Deletes a task from the task list based on the provided index.
+     *
+     * @param args the task number provided by the user
+     * @throws FridayException if the index is invalid or out of bounds
+     */
     public void delete(String args) throws FridayException {
         int index = parseIndex(args);
 
@@ -114,6 +158,14 @@ public class TaskHandler {
         System.out.println("Now you have " + taskList.getLength() + " tasks in the list.");
     }
 
+
+    /**
+     * Searches for tasks whose descriptions contain the given keyword
+     * and prints all matching tasks.
+     *
+     * @param keyword the keyword used to search task descriptions
+     * @throws FridayException if the keyword is empty
+     */
     public void find(String keyword) throws FridayException {
 
         if (keyword.isEmpty()) {
@@ -142,6 +194,13 @@ public class TaskHandler {
 
     // ---------- Helper Methods ----------
 
+
+    /**
+     * Adds a task to the task list, prints a confirmation message,
+     * and saves the updated task list to storage.
+     *
+     * @param task the task to be added
+     */
     private void createAndAddTask(Task task) {
         taskList.addTask(task);
 
@@ -151,6 +210,14 @@ public class TaskHandler {
         saveTasks();
     }
 
+
+    /**
+     * Parses a user-provided task number into a zero-based index.
+     *
+     * @param arg the task number as a string
+     * @return the corresponding zero-based index
+     * @throws FridayException if the task number is not a valid integer
+     */
     private int parseIndex(String arg) throws FridayException {
         try {
             return Integer.parseInt(arg.trim()) - 1;
@@ -159,6 +226,11 @@ public class TaskHandler {
         }
     }
 
+
+    /**
+     * Saves the current list of tasks to persistent storage.
+     * Prints an error message if saving fails.
+     */
     private void saveTasks() {
         try {
             Task[] tasksArray = taskList.getAllTasks();          // your array
@@ -168,6 +240,11 @@ public class TaskHandler {
         }
     }
 
+
+    /**
+     * Loads tasks from storage and adds them to the task list.
+     * Prints a warning message if loading fails.
+     */
     public void loadTasks() {
         try {
             List<Task> loadedTasks = storage.load();     // returns a List<Task>

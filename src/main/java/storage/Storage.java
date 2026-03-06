@@ -29,8 +29,12 @@ public class Storage {
     }
 
     /**
-     * Loads tasks from file.
-     * If file or folder does not exist, returns an empty list.
+     * Loads tasks from the storage file.
+     * If the file or its parent directory does not exist, the directory
+     * is created (if needed) and an empty task list is returned.
+     *
+     * @return List of tasks loaded from the file.
+     * @throws StorageException If an error occurs while reading from the file.
      */
     public List<Task> load() throws StorageException {
         List<Task> tasks = new ArrayList<>();
@@ -68,7 +72,11 @@ public class Storage {
     }
 
     /**
-     * Saves tasks to file. Creates file if missing.
+     * Saves the given list of tasks to the storage file.
+     * The parent directory is created if it does not exist.
+     *
+     * @param tasks List of tasks to be saved.
+     * @throws StorageException If an error occurs while writing to the file.
      */
     public void save(List<Task> tasks) throws StorageException {
 
@@ -96,6 +104,20 @@ public class Storage {
 
     // ---------- Helper methods ----------
 
+    /**
+     * Parses a single line from the save file and converts it into a Task object.
+     * The line is expected to follow the format used by {@link #serializeTask(Task)}.
+
+     * Supported formats:
+     * T | done | description
+     * D | done | description | byDate
+     * E | done | description | fromDateTime | toDateTime
+
+     * If the line is malformed or cannot be parsed, null is returned.
+     *
+     * @param line A line read from the save file.
+     * @return The corresponding Task object, or null if parsing fails.
+     */
     private Task parseTask(String line) {
 
         try {
@@ -139,6 +161,21 @@ public class Storage {
         }
     }
 
+
+    /**
+     * Converts a Task object into a string representation suitable for saving to file.
+     * The format depends on the task type:
+
+     * Todo:     T | done | description
+     * Deadline: D | done | description | byDate
+     * Event:    E | done | description | fromDateTime | toDateTime
+
+     * Dates and times are stored using ISO-8601 format as produced by
+     * {@link LocalDate#toString()} and {@link LocalDateTime#toString()}.
+     *
+     * @param task Task to serialize.
+     * @return A string representation of the task for file storage.
+     */
     private String serializeTask(Task task) {
 
         String done = task.getCompleted() ? "1" : "0";
