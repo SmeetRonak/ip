@@ -162,7 +162,7 @@ public class TaskHandler {
     /**
      * Searches for tasks whose descriptions contain the given keyword
      * and prints all matching tasks.
-     *
+
      * @param keyword the keyword used to search task descriptions
      * @throws FridayException if the keyword is empty
      */
