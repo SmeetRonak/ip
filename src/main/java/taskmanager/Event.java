@@ -1,37 +1,42 @@
 package taskmanager;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Event extends Task {
 
-    //keeping variables private, use getters and setters to access
-    private String from;
-    private String to;
+    private LocalDateTime from;
+    private LocalDateTime to;
 
-    public Event(String name, String from, String to) {
+    private static final DateTimeFormatter FORMATTER =
+            DateTimeFormatter.ofPattern("MMM d yyyy HH:mm");
+
+    public Event(String name, LocalDateTime from, LocalDateTime to) {
         super(name);
         this.from = from;
         this.to = to;
     }
 
-    //getters
-    public String getFrom() {
+    public LocalDateTime getFrom() {
         return from;
     }
 
-    public String getTo() {
+    public LocalDateTime getTo() {
         return to;
     }
 
-    //setters
-    public void setFrom(String from) {
+    public void setFrom(LocalDateTime from) {
         this.from = from;
     }
 
-    public void setTo(String to) {
+    public void setTo(LocalDateTime to) {
         this.to = to;
     }
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from + ", to: " + to + ")";
+        return "[E]" + super.toString() + " (from: "
+                + from.format(FORMATTER) + ", to: "
+                + to.format(FORMATTER) + ")";
     }
 }
